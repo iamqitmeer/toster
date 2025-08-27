@@ -7,9 +7,10 @@ export type Toast = {
   id: string;
   message: React.ReactNode;
   type: ToastType;
+  visible: boolean;
   description?: React.ReactNode;
   duration?: number;
-  visible: boolean;
+  icon?: React.ReactNode;
   action?: {
     label: string;
     onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
@@ -33,7 +34,7 @@ type Events = {
 const emitter = new Emitter<Events>();
 
 const genId = () => Math.random().toString(36).substring(2, 9);
-const DEFAULT_DURATION = 4000;
+const DEFAULT_DURATION = 5000;
 
 function createToast(message: React.ReactNode, options: ToastOptions = {}): string {
   const id = genId();
@@ -70,7 +71,7 @@ toast.promise = <T,>(
   options?: ToastOptions
 ) => {
   const id = createToast(messages.loading, { ...options, type: 'loading', duration: Infinity });
-  
+
   promise
     .then((data) => {
       const message = typeof messages.success === 'function' ? messages.success(data) : messages.success;
@@ -80,7 +81,7 @@ toast.promise = <T,>(
       const message = typeof messages.error === 'function' ? messages.error(error) : messages.error;
       emitter.emit('UPDATE', { id, message, type: 'error', duration: options?.duration ?? DEFAULT_DURATION });
     });
-    
+
   return id;
 };
 

@@ -1,15 +1,15 @@
+
 {
   "name": "@iamqitmeer/toster",
-  "version": "1.0.1",
-  "description": "A powerful, simple, and accessible toast notification library for React.",
+  "version": "2.0.0",
+  "description": "A powerful, simple, and zero-dependency toast notification library for React.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
-    "dist",
-    "styles.css"
+    "dist"
   ],
   "scripts": {
-    "build": "rimraf dist && tsc && cpx src/styles.css ./",
+    "build": "rimraf dist && tsc && cpx src/styles.css dist",
     "watch": "tsc --watch"
   },
   "repository": {
@@ -25,9 +25,9 @@
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
     "cpx": "^1.5.0",
-    "rimraf": "^5.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "rimraf": "^5.0.0",
     "typescript": "^5.3.0"
   },
   "keywords": [
@@ -38,7 +38,10 @@
     "nextjs",
     "toster",
     "sonner",
-    "accessible"
+    "accessible",
+    "lightweight",
+    "zero-dependency",
+    "css-animations"
   ],
   "author": "Qitmeer (https://github.com/iamqitmeer)",
   "license": "MIT",

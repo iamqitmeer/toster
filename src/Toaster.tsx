@@ -93,7 +93,7 @@ export const Toaster: React.FC<ToasterProps> = ({
   const onDismiss = (id: string) => {
     emitter.emit('REMOVE', id);
   };
-  
+
   const toastArray = useMemo(() => Array.from(toasts.values()), [toasts]);
   const isTopPosition = position.includes('top');
   

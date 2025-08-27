@@ -1,22 +1,28 @@
-type Callback<T> = (data: T) => void;
+export type Listener<T> = (data: T) => void;
 
-export class Emitter<T extends Record<string, unknown>> {
-  private callbacks: { [K in keyof T]?: Array<Callback<T[K]>> } = {};
+export class Emitter<Events extends Record<string, any>> {
+  private listeners: { [K in keyof Events]?: Listener<Events[K]>[] } = {};
 
-  on<K extends keyof T>(event: K, callback: Callback<T[K]>): void {
-    if (!this.callbacks[event]) {
-      this.callbacks[event] = [];
+  on<K extends keyof Events>(event: K, listener: Listener<Events[K]>): () => void {
+    if (!this.listeners[event]) {
+      this.listeners[event] = [];
     }
-    this.callbacks[event]?.push(callback);
+    this.listeners[event]!.push(listener);
+
+    return () => this.off(event, listener);
   }
 
-  emit<K extends keyof T>(event: K, data: T[K]): void {
-    this.callbacks[event]?.forEach((callback) => callback(data));
+  off<K extends keyof Events>(event: K, listener: Listener<Events[K]>): void {
+    if (!this.listeners[event]) {
+      return;
+    }
+    this.listeners[event] = this.listeners[event]!.filter(l => l !== listener);
   }
 
-  off<K extends keyof T>(event: K, callback: Callback<T[K]>): void {
-    this.callbacks[event] = this.callbacks[event]?.filter(
-      (cb) => cb !== callback
-    );
+  emit<K extends keyof Events>(event: K, data: Events[K]): void {
+    if (!this.listeners[event]) {
+      return;
+    }
+    this.listeners[event]!.forEach(listener => listener(data));
   }
 }
