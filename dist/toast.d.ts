@@ -5,9 +5,10 @@ export type Toast = {
     id: string;
     message: React.ReactNode;
     type: ToastType;
+    visible: boolean;
     description?: React.ReactNode;
     duration?: number;
-    visible: boolean;
+    icon?: React.ReactNode;
     action?: {
         label: string;
         onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;

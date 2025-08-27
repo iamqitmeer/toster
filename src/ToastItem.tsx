@@ -1,4 +1,6 @@
-import React, { useEffect, useCallback } from 'react';
+"use client";
+
+import React, { useEffect, useCallback, useState } from 'react';
 import type { Toast } from './toast';
 
 type ToastItemProps = {
@@ -16,6 +18,15 @@ const Icons = {
 };
 
 export const ToastItem: React.FC<ToastItemProps> = ({ toast, onDismiss }) => {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setIsMounted(true);
+    }, 10);
+    return () => clearTimeout(timeout);
+  }, []);
+  
   const handleDismiss = useCallback(() => {
     onDismiss(toast.id);
   }, [toast.id, onDismiss]);
@@ -30,10 +41,14 @@ export const ToastItem: React.FC<ToastItemProps> = ({ toast, onDismiss }) => {
   const ToastIcon = Icons[toast.type];
   const toastClass = `toster-toast toster-toast--${toast.type}`;
 
+  const progressStyle: React.CSSProperties = {
+    '--toster-duration': `${toast.duration}ms`,
+  } as React.CSSProperties;
+
   return (
     <li
       className={toastClass}
-      data-visible={toast.visible}
+      data-visible={toast.visible && isMounted}
       role="status"
       aria-live="polite"
       aria-atomic="true"
@@ -65,6 +80,7 @@ export const ToastItem: React.FC<ToastItemProps> = ({ toast, onDismiss }) => {
       >
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
       </button>
+      {toast.duration !== Infinity && <div className="toster-progress-bar" style={progressStyle}></div>}
     </li>
   );
 };

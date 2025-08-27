@@ -34,7 +34,7 @@ type Events = {
 const emitter = new Emitter<Events>();
 
 const genId = () => Math.random().toString(36).substring(2, 9);
-const DEFAULT_DURATION = 5000;
+const DEFAULT_DURATION = 4000;
 
 function createToast(message: React.ReactNode, options: ToastOptions = {}): string {
   const id = genId();

@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useEffect, useMemo } from 'react';
 import { emitter } from './toast';
 import type { Toast } from './toast';
@@ -18,7 +20,7 @@ export interface ToasterProps {
   style?: React.CSSProperties;
 }
 
-const EXIT_ANIMATION_DURATION = 300;
+const EXIT_ANIMATION_DURATION = 400;
 
 export const Toaster: React.FC<ToasterProps> = ({
   position = 'bottom-right',

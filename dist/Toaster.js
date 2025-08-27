@@ -1,4 +1,5 @@
 "use strict";
+"use client";
 var __assign = (this && this.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -25,7 +26,7 @@ var jsx_runtime_1 = require("react/jsx-runtime");
 var react_1 = require("react");
 var toast_1 = require("./toast");
 var ToastItem_1 = require("./ToastItem");
-var EXIT_ANIMATION_DURATION = 300;
+var EXIT_ANIMATION_DURATION = 400;
 var Toaster = function (_a) {
     var _b = _a.position, position = _b === void 0 ? 'bottom-right' : _b, _c = _a.theme, theme = _c === void 0 ? 'light' : _c, className = _a.className, style = _a.style;
     var _d = (0, react_1.useState)(new Map()), toasts = _d[0], setToasts = _d[1];

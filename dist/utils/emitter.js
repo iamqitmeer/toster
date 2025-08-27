@@ -3,22 +3,27 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Emitter = void 0;
 var Emitter = /** @class */ (function () {
     function Emitter() {
-        this.callbacks = {};
+        this.listeners = {};
     }
-    Emitter.prototype.on = function (event, callback) {
-        var _a;
-        if (!this.callbacks[event]) {
-            this.callbacks[event] = [];
+    Emitter.prototype.on = function (event, listener) {
+        var _this = this;
+        if (!this.listeners[event]) {
+            this.listeners[event] = [];
         }
-        (_a = this.callbacks[event]) === null || _a === void 0 ? void 0 : _a.push(callback);
+        this.listeners[event].push(listener);
+        return function () { return _this.off(event, listener); };
+    };
+    Emitter.prototype.off = function (event, listener) {
+        if (!this.listeners[event]) {
+            return;
+        }
+        this.listeners[event] = this.listeners[event].filter(function (l) { return l !== listener; });
     };
     Emitter.prototype.emit = function (event, data) {
-        var _a;
-        (_a = this.callbacks[event]) === null || _a === void 0 ? void 0 : _a.forEach(function (callback) { return callback(data); });
-    };
-    Emitter.prototype.off = function (event, callback) {
-        var _a;
-        this.callbacks[event] = (_a = this.callbacks[event]) === null || _a === void 0 ? void 0 : _a.filter(function (cb) { return cb !== callback; });
+        if (!this.listeners[event]) {
+            return;
+        }
+        this.listeners[event].forEach(function (listener) { return listener(data); });
     };
     return Emitter;
 }());
